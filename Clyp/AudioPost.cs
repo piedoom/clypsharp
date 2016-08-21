@@ -60,6 +60,8 @@ namespace Clyp
         [JsonProperty(PropertyName = "DateCreated")]
         private string dateString { get; set; }
 
+        public Soundwave Waveform { get; set; }
+
         public DateTime Date
         {
             get
@@ -85,9 +87,25 @@ namespace Clyp
             return str.ToString();
         }
 
+        /// <summary>
+        /// The total 400 points that are used to draw audio waveforms.
+        /// </summary>
         public class Soundwave
         {
             public byte[] Datapoints { get; set; } = new byte[400];
+
+            public Soundwave() { }
+
+            /// <summary>
+            /// Draw your own soundwave - useful for local-only applications.
+            /// </summary>
+            /// <param name="points">400 points varying from 0 to 1.</param>
+            public Soundwave(byte[] points)
+            {
+                if (points.Length != 400)
+                    throw new Exception("Datapoints must total 400.");
+                Datapoints = points;
+            }
         }
 
         public enum State

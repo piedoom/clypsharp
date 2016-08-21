@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AudioPost.cs" />
+    <Compile Include="Category.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Create.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

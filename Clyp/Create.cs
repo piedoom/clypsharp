@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Flurl;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,33 @@ using System.Threading.Tasks;
 
 namespace Clyp.Create
 {
+    public class AudioURL
+    {
+        public Url Url { get; set; }
+        public string PlaylistId { get; set; } = null;
+        public string PlaylistUploadToken { get; set; } = null;
+
+        public AudioURL(Url url, string playlistId = null, string playlistUploadToken = null)
+        {
+            // set a playlist if it is specified.
+            if (!string.IsNullOrEmpty(playlistId) && !string.IsNullOrEmpty(playlistUploadToken))
+            {
+                PlaylistId = playlistId;
+                PlaylistUploadToken = playlistUploadToken;
+            }
+
+            if (url == null)
+                throw new Exception("Must provide upload URL.");
+
+            Url = url;
+        }
+
+        public AudioURL(string url, string playlistId = null, string playlistUploadToken = null) : this (new Url(""), playlistId, playlistUploadToken)
+        {
+            Url = url;
+        }
+    }
+
     public class AudioPost {
 
         /// <summary>

@@ -2,13 +2,8 @@
 using Flurl.Http;
 using Flurl.Http.Content;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Clyp
@@ -34,6 +29,10 @@ namespace Clyp
             var result = await BASE
                 .AppendPathSegment(id)
                 .GetJsonAsync<AudioPost>();
+
+            // get the soundwave points if requested
+            if (getSoundwave)
+                result.Waveform = await GetSoundwaveAsync(id);
 
             // return the result
             return result;
@@ -110,5 +109,170 @@ namespace Clyp
 
             return result;
         }
+
+        /// <summary>
+        /// Get a list of categories.
+        /// </summary>
+        /// <returns>A category object.</returns>
+        async public static Task<List<Category>> GetCategoriesAsync()
+        {
+            // get the json
+            var response = await BASE.
+                AppendPathSegment("categorylist")
+                .GetJsonAsync<List<Category>>();
+
+            return response;
+        }
+
+        /// <summary>
+        /// Get a list of special category endpoints, like "Featured" or "Random".
+        /// </summary>
+        /// <returns></returns>
+        async public static Task<List<Category>> GetSpecialCategoriesAsync()
+        {
+            // get the json
+            var response = await BASE.
+                AppendPathSegment("featuredlist")
+                .GetJsonAsync<List<Category>>();
+
+            return response;
+        }
+
+        /// <summary>
+        /// Get posts from a special list, like "Featured" or "Popular".  NOTE: This is 
+        /// not guarenteed to be future-proof - these 'endpoints' were got from the
+        /// <see cref="GetSpecialCategoriesAsync"/> request.  If you want to be super-safe,
+        /// Do a <see cref="GetSpecialCategoriesAsync"/>, and then call <see cref="GetPostsAsync(Category)"/>.
+        /// </summary>
+        /// <param name="list">The list from which to fetch audio posts.</param>
+        /// <returns>A list of audio posts.</returns>
+        async public static Task<List<AudioPost>> GetPostsFromListAsync(List list)
+        {
+            string url = "";
+
+            // determine our endpoint
+            switch (list)
+            {
+                case List.Featured:
+                    url = "https://api.clyp.it/FeaturedList/Featured";
+                    break;
+                case List.Popular:
+                    url = "https://api.clyp.it/FeaturedList/Popular";
+                    break;
+                case List.Random:
+                    url = "https://api.clyp.it/FeaturedList/Random";
+                    break;
+                case List.Recent:
+                    url = "https://api.clyp.it/FeaturedList/Recent";
+                    break;
+            }
+
+            // get the json
+            var response = await url
+                .GetJsonAsync<List<AudioPost>>();
+
+            return response;
+        }
+
+        /// <summary>
+        /// Get random posts within a category.
+        /// </summary>
+        /// <param name="category">The category object from which the posts should be fetched.</param>
+        /// <returns>A list of audio posts.</returns>
+        async public static Task<List<AudioPost>> GetPostsAsync(Category category)
+        {
+            var response = await category.Url
+                .GetJsonAsync<List<AudioPost>>();
+
+            return response;
+        }
+
+        /// <summary>
+        /// Get random posts within a category.
+        /// </summary>
+        /// <param name="categoryUrl">The URL of the category.</param>
+        /// <returns>A list of audio posts.</returns>
+        async public static Task<List<AudioPost>> GetPostsAsync(Url categoryUrl)
+        {
+            return await GetPostsAsync(
+                new Category(categoryUrl));
+        }
+
+        /// <summary>
+        /// Get random posts within a category.
+        /// </summary>
+        /// <param name="categoryUrl">The URL string of the category.</param>
+        /// <returns>A list of audio posts.</returns>
+        async public static Task<List<AudioPost>> GetPostsAsync(string categoryUrl)
+        {
+            return await GetPostsAsync(
+                new Category(
+                    new Url(categoryUrl)));
+        }
+
+        /// <summary>
+        /// Get audio posts from a location.  If no specific location is provided, the site will 
+        /// determine location based on the IP address.
+        /// </summary>
+        /// <param name="count">The number of posts to get.  Defaults to 10.</param>
+        /// <param name="latitude">The latitude coordinate. Value must be between -15069 and 15069.</param>
+        /// <param name="longitude">The longitude coordinate. Value must be between -90 and 90.</param>
+        /// <returns></returns>
+        async public static Task<List<AudioPost>> GetPostsByLocationAsync(int? count = null, double? latitude = null, double? longitude = null)
+        {
+            var request = BASE
+                .AppendPathSegments("featuredlist", "nearby");
+
+            if (count.HasValue)
+                request.SetQueryParam("count", count.Value);
+
+            if (latitude.HasValue && longitude.HasValue)
+            {
+                    request
+                            .SetQueryParam("longitude", longitude.Value)
+                            .SetQueryParam("latitude", latitude.Value);
+            }
+
+            var response = await request.GetJsonAsync<List<AudioPost>>();
+
+            return response;   
+        }
+
+        public enum List
+        {
+            Featured,
+            Popular,
+            Random,
+            Recent
+        }
+
+        /// Unfortunately, the URL Upload page seems to 404, so we can't use it :'(
+        // async public static Task<AudioPost> UploadURLAsync(Create.AudioURL audioURL)
+        // {
+        //     var reqObj = new { uploadurl = audioURL.Url.ToString() };
+        // 
+        //     var request = "https://upload.clyp.it"
+        //         .AppendPathSegment("uploadurl");
+        // 
+        //     if (!string.IsNullOrEmpty(audioURL.PlaylistId) && !string.IsNullOrEmpty(audioURL.PlaylistUploadToken))
+        //         request
+        //             .SetQueryParam("playlistId", audioURL.PlaylistId)
+        //             .SetQueryParam("playlistUploadToken", audioURL.PlaylistUploadToken);
+        // 
+        //     var response = await request.PostJsonAsync(
+        //         reqObj
+        //         );
+        // 
+        //     var res = await response.Content.ReadAsStringAsync();
+        // 
+        //     AudioPost result = new AudioPost();
+        //     await Task.Factory.StartNew(() =>
+        //     {
+        //         result = JsonConvert.DeserializeObject<AudioPost>(res);
+        //     });
+        // 
+        //     return result;
+        // }
+
     }
 }
