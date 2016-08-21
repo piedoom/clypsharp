@@ -12,7 +12,7 @@ Quick Start
 ======
 *Note: the Wiki will fully document all aspects and functions of the library soon*
 
- ### Getting a song by ID
+### Getting a song by ID
 
  ```cs
 Clyp.Client.GetPostAsync(id: "idofsong", getSoundwave: false);
