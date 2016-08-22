@@ -63,6 +63,28 @@ namespace Clyp
         }
 
         /// <summary>
+        /// Get the playlist that an AudioPost belongs to.
+        /// </summary>
+        /// <param name="audioPost">The AudioPost object.</param>
+        /// <returns>A playlist object.</returns>
+        async public static Task<Playlist> GetPostPlaylistAsync(AudioPost audioPost)
+        {
+            return await GetPostPlaylistAsync(audioPost.Id);
+        }
+
+        /// <summary>
+        /// Get the playlist that an AudioPost belongs to.
+        /// </summary>
+        /// <param name="songId">The ID of the AudioPost.</param>
+        /// <returns>A playlist object.</returns>
+        async public static Task<Playlist> GetPostPlaylistAsync(string songId)
+        {
+            return await BASE
+                .AppendPathSegments(songId, "playlist")
+                .GetJsonAsync<Playlist>();
+        }
+
+        /// <summary>
         /// Upload a file anonymously.
         /// </summary>
         /// <param name="audioPost">A new AudioPost object created with <see cref="Create"/>.</param>
@@ -117,11 +139,9 @@ namespace Clyp
         async public static Task<List<Category>> GetCategoriesAsync()
         {
             // get the json
-            var response = await BASE.
+            return await BASE.
                 AppendPathSegment("categorylist")
                 .GetJsonAsync<List<Category>>();
-
-            return response;
         }
 
         /// <summary>
@@ -131,11 +151,9 @@ namespace Clyp
         async public static Task<List<Category>> GetSpecialCategoriesAsync()
         {
             // get the json
-            var response = await BASE.
+            return await BASE.
                 AppendPathSegment("featuredlist")
                 .GetJsonAsync<List<Category>>();
-
-            return response;
         }
 
         /// <summary>
@@ -181,10 +199,8 @@ namespace Clyp
         /// <returns>A list of audio posts.</returns>
         async public static Task<List<AudioPost>> GetPostsAsync(Category category)
         {
-            var response = await category.Url
+            return await category.Url
                 .GetJsonAsync<List<AudioPost>>();
-
-            return response;
         }
 
         /// <summary>
@@ -236,6 +252,19 @@ namespace Clyp
             var response = await request.GetJsonAsync<List<AudioPost>>();
 
             return response;   
+        }
+
+        /// <summary>
+        /// Get a new Playlist object with a new Id and UploadToken.
+        /// </summary>
+        /// <returns></returns>
+        async public static Task<Playlist> CreatePlaylistAsync()
+        {
+            var response = await BASE
+                .AppendPathSegment("playlist")
+                .PostAsync(null);
+
+            return JsonConvert.DeserializeObject<Playlist>(await response.Content.ReadAsStringAsync());
         }
 
         public enum List

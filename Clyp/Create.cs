@@ -89,6 +89,23 @@ namespace Clyp.Create
             }
         }
 
+        /// <summary>
+        /// Create an AudioPost template for uploading a file
+        /// </summary>
+        /// <param name="filePath">The absolute path to the file to be uploaded</param>
+        /// <param name="playlist">The playlist object to add the post to.</param>
+        /// <param name="order">The optional order of this song in the playlist.  Will be ignored if playlist fields are blank.</param>
+        /// <param name="description">The optional description.  Can be no longer than 420 characters (will automatically truncate)</param>
+        /// <param name="longitude">The optional Longitude (must be between -15069 and 15069)</param>
+        /// <param name="latitude">The optional Latitude (must be between -90 and 90)</param>
+        public AudioPost(
+            string filePath,
+            Playlist playlist,
+            int? order = null,
+            string description = null,
+            double? longitude = null,
+            double? latitude = null) : this(filePath, playlist.Id, playlist.UploadToken, order, description, longitude, latitude) { }
+
         public string FilePath { get; set; }
         public string PlaylistId { get; set; } = null;
         public string PlaylistUploadToken { get; set; } = null;

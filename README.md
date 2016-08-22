@@ -89,6 +89,23 @@ feeling proactive, make sure to check if the category exists with the special ca
 Clyp.Client.GetSpecialCategoriesAsync();
 ```
 
+### Creating a playlist
+
+Clyp does not have any public documentation on playlist API settings, only creating one.
+
+```cs
+Clyp.Client.CreatePlaylistAsync();
+
+// returns a new Playlist object with an Id and UploadToken
+```
+
+### Getting the playlist that a post belongs to
+
+```cs
+Clyp.Client.GetPostPlaylistAsync(audiopost);
+```
+
+
 Authenticated Methods
 ======
 
