@@ -7,12 +7,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Clyp")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("An unofficial API wrapper for Clyp.it")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("vaporsoft")]
 [assembly: AssemblyProduct("Clyp")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCopyright("Copyright ©  2016 vaporsoft")]
+[assembly: AssemblyTrademark("doomy")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
 

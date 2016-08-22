@@ -3,12 +3,21 @@ ClypSharp
 
 ClypSharp is the unofficial C# API wrapper for the audio sharing site [Clyp](https://clyp.it/).  
 
-Usage
+Quick Start
 ======
 
-Currently, ClypSharp is **not** on NuGet.  However, that will change when the library has reached a stable state.  Right now, you can use the library by cloning or downloading the repo, and adding a reference to the solution in your target project.
+The easiest way to get ClypSharp is through Nuget.
 
-Quick Start
+```ps
+PM> Install-Package Clyp
+
+```
+
+If you're using Visual Studio or Xamarin, you can search "Clyp" on the package server.
+
+You can also clone this repository and add a reference to your project.
+
+Usage
 ======
 *Note: the Wiki will fully document all aspects and functions of the library soon*
 
