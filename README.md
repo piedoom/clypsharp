@@ -91,8 +91,9 @@ Clyp.Client.GetPostsByLocationAsync(latitude: 0, longitude: 0);
 
 ### Get all "special" category endpoints
 
-This API call is kind of like an endpoint for more endpoints.  The `GetPostsFromListAsync` method just exposes these endpoints for easier access, but it's not future proof.  If you're
-feeling proactive, make sure to check if the category exists with the special category method.  (If this doesn't make sense, don't worry.  The Clyp API is kind of weird sometimes.)
+This API call is kind of like an endpoint for more endpoints.  The `GetPostsFromListAsync` method just exposes these endpoints for easier access.
+Although all of the `GetPostsFromListAsync` endpoints are documented in the API, the fact that this endpoint exists suggests there may be additions in the future.
+You most likely won't need this method, but it's good to have just in case.
 
 ```cs
 Clyp.Client.GetSpecialCategoriesAsync();
