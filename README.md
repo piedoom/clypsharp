@@ -26,7 +26,7 @@ Usage
 
 Uploading a file
 
-[![Video tutorial on uploading a file here.](https://img.youtube.com/vi/qrJDKh19T5s/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+[![Video tutorial on uploading a file here.](https://img.youtube.com/vi/qrJDKh19T5s/0.jpg)](https://www.youtube.com/watch?v=qrJDKh19T5s)
 
 ### Getting a song by ID
 
