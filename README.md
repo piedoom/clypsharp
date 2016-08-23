@@ -21,6 +21,13 @@ Usage
 ======
 *Note: the Wiki will fully document all aspects and functions of the library soon*
 
+
+### Video tutorials
+
+Uploading a file
+
+[![Video tutorial on uploading a file here.](https://img.youtube.com/vi/qrJDKh19T5s/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+
 ### Getting a song by ID
 
  ```cs
@@ -101,7 +108,8 @@ Clyp.Client.GetSpecialCategoriesAsync();
 
 ### Creating a playlist
 
-Clyp does not have any public documentation on playlist API settings, only creating one.
+Clyp does not have any public documentation on playlist API settings, only creating one.  IMPORTANT: it is advised
+to abstain from using playlist-related endpoints, as they will be deprecated [according to the Clyp developers.](https://www.reddit.com/r/clyp/comments/4uy6x7/help_me_understand_playlists/d695gcz)
 
 ```cs
 Clyp.Client.CreatePlaylistAsync();
